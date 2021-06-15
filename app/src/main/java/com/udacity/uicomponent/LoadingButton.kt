@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.udacity.ButtonState
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(

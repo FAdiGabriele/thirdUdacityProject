@@ -11,4 +11,8 @@
     <string name="button_name">Click me</string>
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="notification_channel_id">default_channel</string>
+    <string name="notification_channel_name">default_channel</string>
+    <string name="notification_channel_description">This is the defult channel</string>
 </resources>
