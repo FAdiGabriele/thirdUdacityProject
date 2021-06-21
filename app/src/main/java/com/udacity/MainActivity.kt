@@ -92,8 +92,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun download(url: String, title : String) {
+        //TODO: notification  message
         notificationManager.sendNotification(
-            "ricchio",
+            "notification_message",
             this
         )
         /*
@@ -117,14 +118,20 @@ class MainActivity : AppCompatActivity() {
     private fun manageDownload(){
         when{
             /*
-            If uri is populated i know that a radio button is clicked or the editText is compiled
-             */
+            If uri is populated i know that a radio button is clicked
+            */
             url.isNotBlank() -> {
                 download(url, name)
             }
-            url.isBlank() && binding.contentLayout.customLink.text.toString().isNotBlank() -> {
+
+            /*
+            If customLink is populated i know that radioButton is not clicked
+            and the user wants a custom link
+            */
+            binding.contentLayout.customLink.text.toString().isNotBlank() -> {
                 download(binding.contentLayout.customLink.text.toString(), getString(R.string.custom_download))
             }
+
             else ->{
                 Toast.makeText(this, resources.getString(R.string.error_toast_message), Toast.LENGTH_SHORT).show()
             }
