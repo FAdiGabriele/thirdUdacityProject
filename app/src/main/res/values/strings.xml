@@ -2,6 +2,7 @@
     <string name="app_name">LoadApp</string>
     <string name="app_description">Download files from Internet</string>
     <string name="action_settings">Settings</string>
+    <string name="custom_download">CustomDownloadFIle</string>
 
     <string name="glide_radio_text">Glide - Image Loading Library by BumpTech</string>
     <string name="loadapp_radio_text">LoadApp - Current repository by Udacity</string>
