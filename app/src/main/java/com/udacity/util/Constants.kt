@@ -1,4 +1,4 @@
-package com.udacity
+package com.udacity.util
 
 object Constants {
     val NOTIFICATION_ID = 0

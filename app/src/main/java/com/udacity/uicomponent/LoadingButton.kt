@@ -22,6 +22,7 @@ class LoadingButton @JvmOverloads constructor(
                 }
                 ButtonState.Loading->{
                     //TODO: l'animazione è in corso
+                    //TODO: l'animazione dura quanto il tempo di download, quindi bisogna osservare i tempi di download
                 }
                 ButtonState.Completed->{
                     //TODO: l'animazione si interrompe
@@ -39,6 +40,8 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        //TODO: bisogna disegnare la figura che avrà l'aspetto di un bottone
 
     }
 

@@ -1,11 +1,11 @@
-package com.udacity
+package com.udacity.ui
 
 import android.app.NotificationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.udacity.cancelNotifications
 import com.udacity.databinding.ActivityDetailBinding
-import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
 

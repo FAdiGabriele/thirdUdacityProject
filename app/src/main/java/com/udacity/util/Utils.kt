@@ -8,7 +8,9 @@ import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import androidx.core.app.NotificationCompat
-import com.udacity.Constants.NOTIFICATION_ID
+import com.udacity.ui.DetailActivity
+import com.udacity.util.Constants
+import com.udacity.util.Constants.NOTIFICATION_ID
 
 
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {

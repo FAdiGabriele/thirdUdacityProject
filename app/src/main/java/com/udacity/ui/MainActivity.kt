@@ -1,4 +1,4 @@
-package com.udacity
+package com.udacity.ui
 
 import android.app.DownloadManager
 import android.app.NotificationManager
@@ -7,30 +7,34 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.udacity.Constants.download_link_glide
-import com.udacity.Constants.download_link_loadapp
-import com.udacity.Constants.download_link_retrofit
-import com.udacity.Constants.download_name_glide
-import com.udacity.Constants.download_name_loadapp
-import com.udacity.Constants.download_name_retrofit
-import com.udacity.Constants.selected_glide
-import com.udacity.Constants.selected_loadapp
-import com.udacity.Constants.selected_retrofit
+import androidx.lifecycle.ViewModelProvider
+import com.udacity.viewmodel.MainViewModel
+import com.udacity.R
+import com.udacity.util.Constants.download_link_glide
+import com.udacity.util.Constants.download_link_loadapp
+import com.udacity.util.Constants.download_link_retrofit
+import com.udacity.util.Constants.download_name_glide
+import com.udacity.util.Constants.download_name_loadapp
+import com.udacity.util.Constants.download_name_retrofit
+import com.udacity.util.Constants.selected_glide
+import com.udacity.util.Constants.selected_loadapp
+import com.udacity.util.Constants.selected_retrofit
 import com.udacity.databinding.ActivityMainBinding
+import com.udacity.sendNotification
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var downloadID: Long = 0
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     private lateinit var binding : ActivityMainBinding
-    private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
     private var url = ""
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        notificationManager = ContextCompat.getSystemService(
+        viewModel.notificationManager = ContextCompat.getSystemService(
             this,
             NotificationManager::class.java
         ) as NotificationManager
@@ -91,37 +95,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun download(url: String, title : String) {
-        //TODO: notification  message
-        notificationManager.sendNotification(
-            "notification_message",
-            this
-        )
-        /*
-        I haven't managed the case where the device is without internet connection
-        because I see that the download start automatically when internet return
-         */
-        val request =
-            DownloadManager.Request(Uri.parse(url))
-                .setTitle(title)
-                .setDescription(getString(R.string.app_description))
-                .setRequiresCharging(false)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
-
-        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        downloadID =
-            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-
-    }
-
     private fun manageDownload(){
+        val downloadManager = getSystemService(AppCompatActivity.DOWNLOAD_SERVICE) as DownloadManager
         when{
             /*
             If uri is populated i know that a radio button is clicked
             */
             url.isNotBlank() -> {
-                download(url, name)
+                viewModel.download(url, name, getString(R.string.app_description), downloadManager)
+                viewModel.notificationManager.sendNotification(
+                    "notification_message",
+                    this
+                )
             }
 
             /*
@@ -129,7 +114,13 @@ class MainActivity : AppCompatActivity() {
             and the user wants a custom link
             */
             binding.contentLayout.customLink.text.toString().isNotBlank() -> {
-                download(binding.contentLayout.customLink.text.toString(), getString(R.string.custom_download))
+                viewModel.download(binding.contentLayout.customLink.text.toString(), getString(R.string.custom_download), getString(
+                    R.string.app_description
+                ), downloadManager)
+                viewModel.notificationManager.sendNotification(
+                    "notification_message",
+                    this
+                )
             }
 
             else ->{
