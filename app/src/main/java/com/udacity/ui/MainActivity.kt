@@ -1,7 +1,6 @@
 package com.udacity.ui
 
 import android.app.DownloadManager
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,9 +11,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.udacity.viewmodel.MainViewModel
+import com.udacity.viewmodel.GeneralViewModel
 import com.udacity.R
 import com.udacity.util.Constants.download_link_glide
 import com.udacity.util.Constants.download_link_loadapp
@@ -30,8 +28,8 @@ import com.udacity.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+    private val viewModel: GeneralViewModel by lazy {
+        ViewModelProvider(this).get(GeneralViewModel::class.java)
     }
 
     private val buttonCLickListener = View.OnClickListener {

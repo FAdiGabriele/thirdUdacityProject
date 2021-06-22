@@ -13,10 +13,10 @@ import com.udacity.R
 import com.udacity.util.sendNotification
 
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class GeneralViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    private var downloadID: Long = 0
+//    private var downloadID: Long = 0
     private val applicationContext = application
     val notificationManager: NotificationManager = ContextCompat.getSystemService(
         applicationContext,
@@ -46,7 +46,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .setAllowedOverRoaming(true)
 
 
-        downloadID =
+//        downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
 
         notificationManager.sendNotification(notificationMessage, applicationContext)
