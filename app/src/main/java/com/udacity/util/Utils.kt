@@ -1,4 +1,4 @@
-package com.udacity
+package com.udacity.util
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,8 +8,8 @@ import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import androidx.core.app.NotificationCompat
+import com.udacity.R
 import com.udacity.ui.DetailActivity
-import com.udacity.util.Constants
 import com.udacity.util.Constants.NOTIFICATION_ID
 
 
@@ -51,7 +51,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setContentText(messageBody)
             //.setContentIntent(contentPendingIntent)
             .addAction(
-                    R.drawable.ic_assistant_black_24dp,
+                R.drawable.ic_assistant_black_24dp,
                     applicationContext.getString(R.string.notification_button_text),
                     contentPendingIntent
             )

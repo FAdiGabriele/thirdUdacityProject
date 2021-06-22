@@ -4,7 +4,7 @@ import android.app.NotificationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.udacity.cancelNotifications
+import com.udacity.util.cancelNotifications
 import com.udacity.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {

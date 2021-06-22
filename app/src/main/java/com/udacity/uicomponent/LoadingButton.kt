@@ -12,6 +12,7 @@ class LoadingButton @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private var widthSize = 0
     private var heightSize = 0
+    private var internetOn = false
 
     private val valueAnimator = ValueAnimator()
 
@@ -30,6 +31,27 @@ class LoadingButton @JvmOverloads constructor(
                     //TODO: fa la navigazione
                 }
             }
+    }
+
+    /*
+    I set the override of OnCLickListener because i want that every overload of the method setOnClickListener
+    sets the value of buttonState
+     */
+    override fun setOnClickListener(l : OnClickListener?){
+        super.setOnClickListener(l)
+        /*
+        I update here the buttonState and say it that it is clicked
+         */
+        buttonState = ButtonState.Clicked
+    }
+
+    fun setOnClickListener(l : OnClickListener? , something: Any? = null , internetOn : Boolean = true){
+        this.setOnClickListener(l)
+
+        /*
+     It is necessary for understand if we need to start the animation without internet connection
+      */
+        this.internetOn = internetOn
     }
 
 

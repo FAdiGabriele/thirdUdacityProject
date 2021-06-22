@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -25,13 +26,18 @@ import com.udacity.util.Constants.selected_glide
 import com.udacity.util.Constants.selected_loadapp
 import com.udacity.util.Constants.selected_retrofit
 import com.udacity.databinding.ActivityMainBinding
-import com.udacity.sendNotification
 
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
+    }
+
+    private val buttonCLickListener = View.OnClickListener {
+        //TODO: manage animation when there isn't internet
+        //TODO: manage animation
+        manageDownload()
     }
 
     private lateinit var binding : ActivityMainBinding
@@ -46,14 +52,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        viewModel.notificationManager = ContextCompat.getSystemService(
-            this,
-            NotificationManager::class.java
-        ) as NotificationManager
-
-        binding.contentLayout.nani.setOnClickListener {
-           manageDownload()
-        }
+        //TODO: delete nani
+        binding.contentLayout.nani.setOnClickListener(buttonCLickListener)
 
         binding.contentLayout.radioGroup.setOnCheckedChangeListener { group, checkedId ->
 
@@ -81,12 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        binding.contentLayout.customButton.setOnClickListener {
-            //TODO: manage animation when there isn't internet
-            //TODO: manage animation
-            //TODO: bring here the code of nani button and delete it
-          //  download()
-        }
+        binding.contentLayout.customButton.setOnClickListener(buttonCLickListener, null, viewModel.isNetworkAvailable())
     }
 
     private val receiver = object : BroadcastReceiver() {
@@ -96,17 +91,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun manageDownload(){
-        val downloadManager = getSystemService(AppCompatActivity.DOWNLOAD_SERVICE) as DownloadManager
+
         when{
             /*
             If uri is populated i know that a radio button is clicked
             */
             url.isNotBlank() -> {
-                viewModel.download(url, name, getString(R.string.app_description), downloadManager)
-                viewModel.notificationManager.sendNotification(
-                    "notification_message",
-                    this
-                )
+                viewModel.download(url, name, "something")
             }
 
             /*
@@ -114,13 +105,7 @@ class MainActivity : AppCompatActivity() {
             and the user wants a custom link
             */
             binding.contentLayout.customLink.text.toString().isNotBlank() -> {
-                viewModel.download(binding.contentLayout.customLink.text.toString(), getString(R.string.custom_download), getString(
-                    R.string.app_description
-                ), downloadManager)
-                viewModel.notificationManager.sendNotification(
-                    "notification_message",
-                    this
-                )
+                viewModel.download(binding.contentLayout.customLink.text.toString(), getString(R.string.custom_download), "something")
             }
 
             else ->{
