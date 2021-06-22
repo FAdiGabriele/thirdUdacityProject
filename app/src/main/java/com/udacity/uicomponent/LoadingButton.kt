@@ -16,7 +16,19 @@ class LoadingButton @JvmOverloads constructor(
     private val valueAnimator = ValueAnimator()
 
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
-
+            when(new){
+                ButtonState.Clicked->{
+                    //TODO: fai partire l'animazione
+                }
+                ButtonState.Loading->{
+                    //TODO: l'animazione è in corso
+                }
+                ButtonState.Completed->{
+                    //TODO: l'animazione si interrompe
+                    //TODO: fa partire l'animazione del cerchio giallo
+                    //TODO: fa la navigazione
+                }
+            }
     }
 
 
