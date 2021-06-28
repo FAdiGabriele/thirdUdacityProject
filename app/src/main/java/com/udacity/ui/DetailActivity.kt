@@ -22,6 +22,12 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        val intent = intent
+
+        //todo: set file name, status
+
+        //todo: create the yellow circle animation
+
         viewModel.notificationManager.cancelNotifications()
     }
 

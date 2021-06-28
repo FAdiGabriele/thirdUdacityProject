@@ -16,6 +16,7 @@ object Constants {
     val download_name_loadapp = "LoadApp Github"
     val download_name_retrofit = "Retrofit Github"
 
+    const val uri_my_download = "content://downloads/my_downloads"
     const val URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
     const val CHANNEL_ID = "channelId"

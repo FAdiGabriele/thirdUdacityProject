@@ -13,11 +13,11 @@ import com.udacity.ui.DetailActivity
 import com.udacity.util.Constants.NOTIFICATION_ID
 
 
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+fun NotificationManager.sendNotification(fileName : String, messageBody: String, status : DownloadTracker, applicationContext: Context) {
 
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
-    contentIntent.putExtra(Constants.FILE_NAME, "")
-    contentIntent.putExtra(Constants.STATUS, "")
+    contentIntent.putExtra(Constants.FILE_NAME, fileName)
+    contentIntent.putExtra(Constants.STATUS, status.name)
 
     val contentPendingIntent = PendingIntent.getActivity(
             applicationContext,

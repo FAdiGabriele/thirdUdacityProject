@@ -22,8 +22,9 @@
     <string name="notification_button_text">Check the status</string>
 
     <string name="error_toast_message">Please select the file to download</string>
-    <string name="button_loading_text">We are loading</string>
-    <string name="button_text">Download</string>
+    <string name="button_complete_label">Download completed</string>
+    <string name="button_loading_label">We are loading</string>
+    <string name="button_label">Download</string>
 
     <string name="file_name_label">File name:</string>
 

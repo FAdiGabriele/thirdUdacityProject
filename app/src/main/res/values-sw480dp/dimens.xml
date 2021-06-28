@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_text_size">20sp</dimen>
 
     <!-- dimension of loading button -->
     <dimen name="loading_button_left_value">20dp</dimen>
     <dimen name="loading_button_top_value">10dp</dimen>
-    <dimen name="loading_button_right_value">390dp</dimen>
+    <dimen name="loading_button_right_value">585dp</dimen>
     <dimen name="loading_button_bottom_value">50dp</dimen>
 
     <dimen name="loading_button_text_size">20sp</dimen>
