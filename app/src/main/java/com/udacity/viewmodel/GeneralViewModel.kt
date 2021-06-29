@@ -39,22 +39,20 @@ class GeneralViewModel(application: Application) : AndroidViewModel(application)
     private fun setupLiveData(){
         downloadHelper.downloadTracker.observeForever { downloadTrackerValue ->
             when(downloadTrackerValue!!){ // I'm sure that this value can't be null because the Enum class has a default value
+
                 DownloadTracker.DOWNLOAD_NOT_STARTED -> {  //default value
-                    Log.e("download","stato - no")
+                    //It allow to reset all the code that depend on the progressTracker
                     _progressTracker.value = -1
+
                 }
-                DownloadTracker.DOWNLOAD_IN_PROGRESS -> {
-                    Log.e("download","stato - in corso")
-                }
+                DownloadTracker.DOWNLOAD_IN_PROGRESS -> {}
                 DownloadTracker.DOWNLOAD_FAILED -> {
-                    Log.e("download","stato - fallito")
                     //it send notification that contain the message given and the status of the download
                     notificationManager.sendNotification(fileName, notificationMessage, downloadTrackerValue , applicationContext)
                     _progressTracker.value = 100
                 }
 
                 DownloadTracker.DOWNLOAD_SUCCESSFUL -> {
-                    Log.e("download","stato - finito")
                     //it send notification that contain the message given and the status of the download
                     notificationManager.sendNotification(fileName, notificationMessage, downloadTrackerValue , applicationContext)
                     _progressTracker.value = 100

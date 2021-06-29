@@ -31,14 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var binding : ActivityMainBinding
-//    private lateinit var pendingIntent: PendingIntent
-//    private lateinit var action: NotificationCompat.Action
     private var url = ""
     private var name = ""
-
-    private val buttonCLickListener = View.OnClickListener {
-        manageDownload()
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,25 +65,30 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(viewModel.downloadHelper.broadcastReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        binding.contentLayout.customButton.setOnClickListener(buttonCLickListener)
+        binding.contentLayout.customButton.setOnClickListener{
+            manageDownload()
+        }
 
         setupLiveData()
     }
 
-    /*
-         When the user select some radioButton it disable the ediText that
-         allow to write a custom link and I clean it for avoid confusing
-          */
-    fun clearEditText(){
+    /**
+     *  When the user select some radioButton it disable the ediText that
+     *  allow to write a custom link and I clean it for avoid confusing
+     */
+    private fun clearEditText(){
         binding.contentLayout.customLink.setText("")
         binding.contentLayout.customLink.isEnabled = false
     }
 
     private fun setupLiveData() {
+        /*
+        With this LiveData we can observe the % of the download progress
+         */
         viewModel.progressTracker.observe(this, Observer { progress ->
             when(progress){
                 -1->{
-                    Log.e("Progress","download finito, codice $progress")
+                    //no Download is active
                     if(!binding.contentLayout.customLink.isEnabled) {
                         binding.contentLayout.customLink.isEnabled = true
                         binding.contentLayout.customLink.isFocusable = true
@@ -97,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                     binding.contentLayout.radioGroup.clearCheck()
                 }
                 else -> {
-                   Log.e("Progress","download al $progress %")
+                    //We set the % value at the bottom so we can show the progress to the User
                     binding.contentLayout.customButton.setProgressValue(progress)
                 }
             }
@@ -133,15 +132,33 @@ class MainActivity : AppCompatActivity() {
                 if(!viewModel.isNetworkAvailable()){
                     Toast.makeText(
                         this,
-                        "We are waiting for internet connection and we will start your download",
+                        resources.getString(R.string.wait_for_connection),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                viewModel.download(
-                    binding.contentLayout.customLink.text.toString(),
-                    getString(R.string.custom_download),
-                    "something"
-                )
+
+
+                var insertedUrl = binding.contentLayout.customLink.text.toString()
+
+                if(isURLWellWritten(insertedUrl)){
+
+                    if(insertedUrl.startsWith("www.")){
+                        insertedUrl = "https://$insertedUrl"
+                    }
+
+                    viewModel.download(
+                            insertedUrl,
+                            getString(R.string.custom_download),
+                            "something"
+                    )
+
+                }else{
+                    Toast.makeText(
+                            this,
+                            resources.getString(R.string.url_bad_written),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                }
 
             }
 
@@ -151,9 +168,17 @@ class MainActivity : AppCompatActivity() {
                     resources.getString(R.string.error_toast_message),
                     Toast.LENGTH_SHORT
                 ).show()
+                //We should not wait if download did not start
                 binding.contentLayout.customButton.setProgressValue(100)
             }
         }
+    }
+
+
+    private fun isURLWellWritten(url: String): Boolean {
+
+        return url.startsWith("https://") || url.startsWith("http://") || url.startsWith("www.")
+
     }
 
 }

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="LoadingButton">
-        <!--   TODO: create custom attributes for the view-->
-        <attr name="buttonState" format="enum"/>
+<!--        <attr name="buttonState" >-->
+<!--            <enum name="inactive" value="ButtonState.Inactive"/>-->
+<!--            <enum name="clicked" value="ButtonState.Clicked"/>-->
+<!--            <enum name="loading" value="ButtonState.Loading"/>-->
+<!--            <enum name="completed" value="ButtonState.Completed"/>-->
+<!--        </attr>-->
         <attr name="progressValue" format="integer"/>
     </declare-styleable>
 </resources>

@@ -41,14 +41,16 @@ class DownloadHelper(val context: Context) {
                 if (c.moveToFirst()) {
                     val columnIndex = c
                         .getColumnIndex(DownloadManager.COLUMN_STATUS)
+
+
                     _downloadTracker.value =
                         if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
                             DownloadTracker.DOWNLOAD_SUCCESSFUL
-                            //Download status is successful
                         }else{
                             DownloadTracker.DOWNLOAD_FAILED
-                            //Download status is failed
                         }
+
+
                     resetDownloadTracker()
                 }
             }
@@ -98,8 +100,6 @@ class DownloadHelper(val context: Context) {
 
                 return
             }
-
-            Log.e("downloadId", "è $downloadId")
 
             getDownloadProgress(downloadId)
         }

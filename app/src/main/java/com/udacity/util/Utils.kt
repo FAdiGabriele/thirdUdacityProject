@@ -17,7 +17,13 @@ fun NotificationManager.sendNotification(fileName : String, messageBody: String,
 
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
     contentIntent.putExtra(Constants.FILE_NAME, fileName)
-    contentIntent.putExtra(Constants.STATUS, status.name)
+
+    val statusName = when (status) {
+        DownloadTracker.DOWNLOAD_SUCCESSFUL -> applicationContext.resources.getString(R.string.status_success)
+        DownloadTracker.DOWNLOAD_FAILED -> applicationContext.resources.getString(R.string.status_failed)
+        else -> applicationContext.resources.getString(R.string.status_error)
+    }
+    contentIntent.putExtra(Constants.STATUS, statusName )
 
     val contentPendingIntent = PendingIntent.getActivity(
             applicationContext,
@@ -49,7 +55,6 @@ fun NotificationManager.sendNotification(fileName : String, messageBody: String,
             .setColor(applicationContext.resources.getColor(R.color.white))
             .setContentTitle(applicationContext.getString(R.string.notification_title))
             .setContentText(messageBody)
-            //.setContentIntent(contentPendingIntent)
             .addAction(
                 R.drawable.ic_assistant_black_24dp,
                     applicationContext.getString(R.string.notification_button_text),

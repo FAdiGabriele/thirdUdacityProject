@@ -49,6 +49,18 @@
             app:layout_constraintStart_toStartOf="@+id/file_name_value"
             app:layout_constraintTop_toTopOf="@+id/status_label" />
 
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutDescription="@xml/motion_step"
+            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_value">
+
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
         <Button
             android:id="@+id/button"
             android:layout_width="0dp"

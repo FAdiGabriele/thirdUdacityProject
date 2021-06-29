@@ -17,7 +17,39 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
     private var textToDisplay = resources.getString(R.string.button_label)
-    private var progressValue = 0
+    private var typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoadingButton, defStyleAttr, 0)
+
+    private var progressValue = typedArray.getInt(R.styleable.LoadingButton_progressValue, 0)
+
+    //remember to call invalidate when you want to update the UI after user interact with this view
+    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Inactive) { p, old, new ->
+        when (new) {
+            //this is the default state
+            ButtonState.Inactive -> {
+                progressValue = -1
+                textToDisplay = resources.getString(R.string.button_label)
+                invalidate()
+            }
+            ButtonState.Clicked -> {
+                buttonState = ButtonState.Loading
+            }
+            ButtonState.Loading -> {
+                textToDisplay = resources.getString(R.string.button_loading_label)
+                invalidate()
+
+            }
+            ButtonState.Completed -> {
+                progressValue = 100
+                invalidate()
+
+                Handler().postDelayed({
+                    buttonState = ButtonState.Inactive
+                }, 2000)
+
+            }
+        }
+    }
+
 
     //used device size
     private val deviceHeight : Int
@@ -103,35 +135,9 @@ class LoadingButton @JvmOverloads constructor(
         return super.performClick()
     }
 
-    //remember to call invalidate when you want to update the UI after user interact with this view
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Inactive) { p, old, new ->
-        when (new) {
-            //this is the default state
-            ButtonState.Inactive -> {
-                progressValue = -1
-                textToDisplay = resources.getString(R.string.button_label)
-                invalidate()
-            }
-            ButtonState.Clicked -> {
-                buttonState = ButtonState.Loading
-            }
-            ButtonState.Loading -> {
-                textToDisplay = resources.getString(R.string.button_loading_label)
-                invalidate()
-
-            }
-            ButtonState.Completed -> {
-                progressValue = 100
-                invalidate()
-
-                Handler().postDelayed({
-                    buttonState = ButtonState.Inactive
-                }, 2000)
-
-            }
-        }
-    }
-
+    /**
+     * It get the [progressValue] and create a darker rect that represent the actual state of the download
+     */
     private fun createProgressRect() : RectF{
         val progressDimension = (progressValue * rect.right) /100
 
@@ -155,6 +161,7 @@ class LoadingButton @JvmOverloads constructor(
     fun getProgressValue() : Int{
         return progressValue
     }
+
 
     init {
         isClickable = true
