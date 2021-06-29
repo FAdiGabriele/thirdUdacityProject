@@ -59,7 +59,7 @@ class LoadingButton @JvmOverloads constructor(
     private val rect = RectF( //basic shape of rect
             resources.getDimension(R.dimen.loading_button_left_value),
             resources.getDimension(R.dimen.loading_button_top_value),
-            resources.getDimension(R.dimen.loading_button_right_value),
+            0f,
             resources.getDimension(R.dimen.loading_button_bottom_value))
 
     private val rectPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -79,17 +79,12 @@ class LoadingButton @JvmOverloads constructor(
         color = resources.getColor(R.color.colorPrimaryDark, null)
     }
 
-    private val valueAnimator = ValueAnimator()
+//    private val valueAnimator = ValueAnimator()
 
 
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        //This is an adaptation for smaller phone screen
-        if(rect.right > deviceWidth - resources.getDimension(R.dimen.loading_button_left_value)){
-            rect.right = deviceWidth - resources.getDimension(R.dimen.loading_button_left_value)
-        }
 
         canvas.drawRect(rect, rectPaint)
 
@@ -168,5 +163,8 @@ class LoadingButton @JvmOverloads constructor(
 
         deviceWidth = Resources.getSystem().displayMetrics.widthPixels
         deviceHeight = Resources.getSystem().displayMetrics.heightPixels
+
+        //In this way the rectangle is always regulated for each screen
+        rect.right = deviceWidth - resources.getDimension(R.dimen.loading_button_left_value)
     }
 }

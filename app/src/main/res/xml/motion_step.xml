@@ -3,14 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/widget" />
+        <Constraint android:id="@+id/yellow_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/circle_white"
+            app:layout_constraintCircle="@+id/yellow"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="90dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </ConstraintSet>
-
     <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/widget" />
+        <Constraint android:id="@+id/yellow_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/circle_yellow"
+            app:layout_constraintCircle="@+id/yellow"
+            app:layout_constraintCircleAngle="359"
+            app:layout_constraintCircleRadius="90dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_editor_absoluteY="214dp"
+            app:layout_editor_absoluteX="180dp" />
     </ConstraintSet>
 
     <Transition
+        android:id="@+id/transition"
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
+        app:constraintSetStart="@+id/start"
+        app:duration="8000"/>
 </MotionScene>
