@@ -17,7 +17,7 @@ class FilledCircleProgressBar @JvmOverloads constructor(
 
    private var typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilledCircleProgressBar, defStyleAttr, 0)
 
-    var percentValue : Float =  typedArray.getFloat(R.styleable.FilledCircleProgressBar_percentValue, 0f)
+    var circleProgressValue : Float =  typedArray.getFloat(R.styleable.FilledCircleProgressBar_circleProgressValue, 0f)
         set(value) {
             field = value
             invalidate()
@@ -34,7 +34,7 @@ class FilledCircleProgressBar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         paint.color = resources.getColor(R.color.colorAccent,null)
-        canvas.drawArc(mArea, startAngle, percentValue, true, paint)
+        canvas.drawArc(mArea, startAngle, circleProgressValue, true, paint)
     }
 
     //It define how load button fits in layout

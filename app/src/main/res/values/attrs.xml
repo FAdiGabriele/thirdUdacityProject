@@ -11,6 +11,6 @@
     </declare-styleable>
 
     <declare-styleable name="FilledCircleProgressBar">
-        <attr name="percentValue" format="float"/>
+        <attr name="circleProgressValue" format="float"/>
     </declare-styleable>
 </resources>

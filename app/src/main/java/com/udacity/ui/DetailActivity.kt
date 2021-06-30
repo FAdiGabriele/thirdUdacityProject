@@ -60,13 +60,13 @@ class DetailActivity : AppCompatActivity() {
 
 
     private fun loadProgressValue(){
-        val partOfSecond = 400L
+        val partOfSecond = 500L
         val fullTime = 6000L
 
        val countDownTimer = object : CountDownTimer(fullTime,partOfSecond){
            override fun onTick(p0: Long) {
                timePassed += partOfSecond
-               binding.contentLayout.yellowCircle.percentValue = (timePassed* 360 /fullTime).toFloat()
+               binding.contentLayout.yellowCircle.circleProgressValue = (timePassed* 360 /fullTime).toFloat()
            }
 
            override fun onFinish() {
@@ -75,6 +75,7 @@ class DetailActivity : AppCompatActivity() {
        }
 
         countDownTimer.start()
+        binding.contentLayout.rotatingImage.performClick()
 
     }
 

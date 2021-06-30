@@ -38,4 +38,6 @@
     <string name="first_label">Download one of our project…</string>
     <string name="second_label">…or download a your custom file</string>
 
+    <string name="your_file_ready">Your file is ready!</string>
+
 </resources>

@@ -10,5 +10,5 @@
     <dimen name="loading_button_text_size">20sp</dimen>
 
     <dimen name="min_circle">30dp</dimen>
-    <dimen name="max_circle">130dp</dimen>
+    <dimen name="max_circle">230dp</dimen>
 </resources>

@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import androidx.core.app.NotificationCompat
@@ -19,7 +21,7 @@ fun NotificationManager.sendNotification(fileName : String, messageBody: String,
     contentIntent.putExtra(Constants.FILE_NAME, fileName)
 
     val statusName = when (status) {
-        DownloadTracker.DOWNLOAD_SUCCESSFUL -> applicationContext.resources.getString(R.string.status_success)
+        DownloadTracker.DOWNLOAD_SUCCESSFUL -> {applicationContext.resources.getString(R.string.status_success)}
         DownloadTracker.DOWNLOAD_FAILED -> applicationContext.resources.getString(R.string.status_failed)
         else -> applicationContext.resources.getString(R.string.status_error)
     }
@@ -60,6 +62,12 @@ fun NotificationManager.sendNotification(fileName : String, messageBody: String,
                     applicationContext.getString(R.string.notification_button_text),
                     contentPendingIntent
             )
+
+   if(status ==  DownloadTracker.DOWNLOAD_SUCCESSFUL ){
+       builder.setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources,R.drawable.happy_android))
+   }else{
+       builder.setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources,R.drawable.sad_android))
+   }
 
     notify(NOTIFICATION_ID, builder.build())
 

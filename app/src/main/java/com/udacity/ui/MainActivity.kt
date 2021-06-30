@@ -105,8 +105,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    //todo: replace something
-    //todo: string values
+
     private fun manageDownload(){
 
         when{
@@ -117,11 +116,11 @@ class MainActivity : AppCompatActivity() {
                 if(!viewModel.isNetworkAvailable()){
                     Toast.makeText(
                         this,
-                        "We are waiting for internet connection and we will start your download",
+                        resources.getString(R.string.wait_for_connection),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                viewModel.download(url, name, "something")
+                viewModel.download(url, name, resources.getString(R.string.your_file_ready))
 
             }
 
@@ -150,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                     viewModel.download(
                             insertedUrl,
                             getString(R.string.custom_download),
-                            "something"
+                        resources.getString(R.string.your_file_ready)
                     )
 
                 }else{
