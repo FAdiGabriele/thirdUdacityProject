@@ -73,12 +73,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     *  When the user select some radioButton it disable the ediText that
-     *  allow to write a custom link and I clean it for avoid confusing
+     *  When the user select some radioButton I clean the ediText and
+     *  when the user select the editText I clean the radio buttons
+     *  so the application doesn't get a conflict
      */
     private fun clearEditText(){
         binding.contentLayout.customLink.setText("")
-        binding.contentLayout.customLink.isEnabled = false
+        binding.contentLayout.customLink.setOnClickListener {
+            if(binding.contentLayout.radioGroup.checkedRadioButtonId != -1)
+            binding.contentLayout.radioGroup.clearCheck()
+        }
     }
 
     private fun setupLiveData() {
@@ -89,11 +93,8 @@ class MainActivity : AppCompatActivity() {
             when(progress){
                 -1->{
                     //no Download is active
-                    if(!binding.contentLayout.customLink.isEnabled) {
-                        binding.contentLayout.customLink.isEnabled = true
-                        binding.contentLayout.customLink.isFocusable = true
-                    }
                     binding.contentLayout.radioGroup.clearCheck()
+                    binding.contentLayout.customLink.setText("")
                 }
                 else -> {
                     //We set the % value at the bottom so we can show the progress to the User

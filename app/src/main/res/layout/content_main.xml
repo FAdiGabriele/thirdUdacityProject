@@ -19,7 +19,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/first_label"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +63,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="TextView"
+            android:textSize="16sp"
+            android:text="@string/second_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radio_group" />

@@ -8,4 +8,7 @@
     <dimen name="loading_button_bottom_value">50dp</dimen>
 
     <dimen name="loading_button_text_size">20sp</dimen>
+
+    <dimen name="min_circle">30dp</dimen>
+    <dimen name="max_circle">130dp</dimen>
 </resources>

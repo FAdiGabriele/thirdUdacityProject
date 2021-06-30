@@ -3,7 +3,10 @@ package com.udacity.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.R
@@ -15,6 +18,7 @@ import com.udacity.viewmodel.GeneralViewModel
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
+    var timePassed = 0L
     private val viewModel: GeneralViewModel by lazy {
         ViewModelProvider(this).get(GeneralViewModel::class.java)
     }
@@ -36,11 +40,7 @@ class DetailActivity : AppCompatActivity() {
             binding.contentLayout.statusValue.setTextColor(Color.RED)
         }
 
-        //todo: create the yellow circle animation
-
-        Handler().postDelayed({
-          returnToMainScreen()
-        }, 8000)
+        loadProgressValue()
 
 
         binding.contentLayout.button.setOnClickListener {
@@ -53,7 +53,29 @@ class DetailActivity : AppCompatActivity() {
 
     private fun returnToMainScreen(){
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
+
+
+    private fun loadProgressValue(){
+        val partOfSecond = 400L
+        val fullTime = 6000L
+
+       val countDownTimer = object : CountDownTimer(fullTime,partOfSecond){
+           override fun onTick(p0: Long) {
+               timePassed += partOfSecond
+               binding.contentLayout.yellowCircle.percentValue = (timePassed* 360 /fullTime).toFloat()
+           }
+
+           override fun onFinish() {
+              returnToMainScreen()
+           }
+       }
+
+        countDownTimer.start()
+
+    }
+
 }

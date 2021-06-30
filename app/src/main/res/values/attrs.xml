@@ -9,4 +9,8 @@
 <!--        </attr>-->
         <attr name="progressValue" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="FilledCircleProgressBar">
+        <attr name="percentValue" format="float"/>
+    </declare-styleable>
 </resources>

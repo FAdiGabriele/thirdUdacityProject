@@ -35,4 +35,7 @@
     <string name="wait_for_connection">We are waiting for internet connection and we will start your download</string>
     <string name="url_bad_written">URL bad written, try again with a correct URL</string>
 
+    <string name="first_label">Download one of our project…</string>
+    <string name="second_label">…or download a your custom file</string>
+
 </resources>
