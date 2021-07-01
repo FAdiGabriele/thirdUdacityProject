@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="LoadingButton">
-<!--        <attr name="buttonState" >-->
-<!--            <enum name="inactive" value="ButtonState.Inactive"/>-->
-<!--            <enum name="clicked" value="ButtonState.Clicked"/>-->
-<!--            <enum name="loading" value="ButtonState.Loading"/>-->
-<!--            <enum name="completed" value="ButtonState.Completed"/>-->
-<!--        </attr>-->
         <attr name="progressValue" format="integer"/>
+        <attr name="progessColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="FilledCircleProgressBar">
