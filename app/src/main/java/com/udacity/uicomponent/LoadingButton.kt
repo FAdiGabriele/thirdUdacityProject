@@ -18,7 +18,8 @@ class LoadingButton @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private var widthSize = 0
     private var heightSize = 0
-    private var textToDisplay = resources.getString(R.string.button_label)
+    private var textToDisplayToButton = ""
+    private var textToDisplayinUpperPart = ""
     private var typedArray = context.obtainStyledAttributes(
         attrs,
         R.styleable.LoadingButton,
@@ -29,6 +30,10 @@ class LoadingButton @JvmOverloads constructor(
 
     private var progressValue = typedArray.getInt(R.styleable.LoadingButton_progressValue, 0)
     private var progressColor = typedArray.getColor(R.styleable.LoadingButton_progessColor, resources.getColor(R.color.colorPrimaryDark, null))
+    private var buttonText = typedArray.getString(R.styleable.LoadingButton_buttonText)
+    private var upperText = typedArray.getString(R.styleable.LoadingButton_waitingText)
+    private var loadingText = typedArray.getString(R.styleable.LoadingButton_loadingText)
+
 
     //remember to call invalidate when you want to update the UI after user interact with this view
     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Inactive) { p, old, new ->
@@ -36,14 +41,14 @@ class LoadingButton @JvmOverloads constructor(
             //this is the default state
             ButtonState.Inactive -> {
                 progressValue = -1
-                textToDisplay = resources.getString(R.string.button_label)
+                regolateButtonText()
                 invalidate()
             }
             ButtonState.Clicked -> {
                 buttonState = ButtonState.Loading
             }
             ButtonState.Loading -> {
-                textToDisplay = resources.getString(R.string.button_loading_label)
+                regolateButtonText()
                 invalidate()
 
             }
@@ -53,7 +58,7 @@ class LoadingButton @JvmOverloads constructor(
 
                 Handler().postDelayed({
                     buttonState = ButtonState.Inactive
-                }, 2000)
+                }, 3000)
 
             }
         }
@@ -77,8 +82,15 @@ class LoadingButton @JvmOverloads constructor(
         color = resources.getColor(R.color.colorPrimary, null)
     }
 
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val textWhitePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color =  Color.WHITE
+        textSize = resources.getDimension(R.dimen.loading_button_text_size)
+        textAlign = Paint.Align.CENTER
+
+    }
+
+    private val textBlackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color =  Color.BLACK
         textSize = resources.getDimension(R.dimen.loading_button_text_size)
         textAlign = Paint.Align.CENTER
 
@@ -89,8 +101,10 @@ class LoadingButton @JvmOverloads constructor(
         color = progressColor
     }
 
-    private val penguinAnimator = animatePenguin(TimeUnit.SECONDS.toMillis(2))
-    val penguinBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources,R.drawable.penguin_icon), 100, 100, true)
+    private val penguinAnimator = animatePenguin(TimeUnit.SECONDS.toMillis(20))
+    var penguinBitmap: Bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources,R.drawable.penguin_icon), 100, 100, true)
+    var penguinPosition = rect.left/2
+    var isPenguinGoingBack = false
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -100,16 +114,24 @@ class LoadingButton @JvmOverloads constructor(
         if(progressValue in 1..100){
             val progressRect = createProgressRect()
             canvas.drawRect(progressRect, progressRectPaint)
+        }else{
+            canvas.drawText(
+                    textToDisplayinUpperPart,
+                    rect.centerX(),
+                    resources.getDimension(R.dimen.loading_button_bottom_value)-resources.getDimension(R.dimen.loading_button_top_value) ,
+                    textBlackPaint
+            )
+
+            canvas.drawBitmap(penguinBitmap, penguinPosition, resources.getDimension(R.dimen.loading_button_top_value), Paint())
         }
 
         canvas.drawText(
-            textToDisplay,
+            textToDisplayToButton,
             rect.centerX(),
             rect.centerY() + resources.getDimension(R.dimen.loading_button_top_value) / 1.5f,
-            textPaint
+            textWhitePaint
         )
 
-        canvas.drawBitmap(penguinBitmap, resources.getDimension(R.dimen.loading_button_left_value)/2, resources.getDimension(R.dimen.loading_button_top_value), Paint())
     }
 
     //It define how load button fits in layout
@@ -122,9 +144,10 @@ class LoadingButton @JvmOverloads constructor(
             0
         )
         widthSize = deviceWidth
-        heightSize =  resources.getDimension(R.dimen.loading_button_bottom_value).toInt() +
-                resources.getDimension(R.dimen.loading_button_top_value).toInt() +
-                resources.getDimension(R.dimen.loading_button_bottom_value).toInt()
+        heightSize =
+                if(buttonState != ButtonState.Loading)
+                    resources.getDimension(R.dimen.loading_button_bottom_value).toInt() + resources.getDimension(R.dimen.loading_button_top_value).toInt() + resources.getDimension(R.dimen.loading_button_bottom_value).toInt()
+                else  resources.getDimension(R.dimen.loading_button_bottom_value).toInt() + resources.getDimension(R.dimen.loading_button_top_value).toInt()
         setMeasuredDimension(widthSize, heightSize)
     }
 
@@ -150,10 +173,10 @@ class LoadingButton @JvmOverloads constructor(
         val progressDimension = (progressValue * rect.right) /100
 
         return RectF(
-            resources.getDimension(R.dimen.loading_button_left_value),
-            resources.getDimension(R.dimen.loading_button_top_value),
+            rect.left,
+            rect.top,
             progressDimension,
-            resources.getDimension(R.dimen.loading_button_bottom_value)
+            rect.bottom
         )
     }
 
@@ -179,9 +202,27 @@ class LoadingButton @JvmOverloads constructor(
         anim.repeatCount = ValueAnimator.INFINITE
 
         anim.addUpdateListener {
-
+            if(penguinPosition > rect.right - penguinBitmap.width || penguinPosition < rect.left/2) {
+                turnsPenguin()
+                walkPenguin()
+            }else walkPenguin()
+            invalidate()
         }
         return anim
+    }
+
+    private fun turnsPenguin(){
+        isPenguinGoingBack = !isPenguinGoingBack
+        val matrix = Matrix().apply { postScale(-1f, 1f, penguinBitmap.width.toFloat(), penguinBitmap.height.toFloat()) }
+        penguinBitmap = Bitmap.createBitmap(penguinBitmap, 0, 0, penguinBitmap.width , penguinBitmap.height, matrix, true)
+    }
+
+    private fun walkPenguin(){
+        if(!isPenguinGoingBack){
+            penguinPosition += 3
+        }else {
+            penguinPosition -= 3
+        }
     }
 
 
@@ -193,5 +234,32 @@ class LoadingButton @JvmOverloads constructor(
 
         //In this way the rectangle is always regulated for each screen
         rect.right = deviceWidth - resources.getDimension(R.dimen.loading_button_left_value)
+
+        penguinAnimator.start()
+        regolateButtonText()
+
+        textToDisplayinUpperPart = if(upperText != null) upperText as String
+        else resources.getString(R.string.wait_for_your_download)
+
+        typedArray.recycle()
+    }
+
+    fun regolateButtonText(){
+        textToDisplayToButton = when{
+
+            buttonText != null && buttonState == ButtonState.Inactive ->
+                buttonText.toString()
+
+            buttonText == null && buttonState == ButtonState.Inactive ->
+                resources.getString(R.string.button_label)
+
+            loadingText != null && buttonState == ButtonState.Loading ->
+                loadingText.toString()
+
+            loadingText == null && buttonState == ButtonState.Loading ->
+                resources.getString(R.string.button_loading_label)
+
+            else -> ""
+        }
     }
 }

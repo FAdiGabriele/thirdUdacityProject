@@ -39,5 +39,6 @@
     <string name="second_label">…or download a your custom file</string>
 
     <string name="your_file_ready">Your file is ready!</string>
+    <string name="wait_for_your_download">Penguin is waiting for your Download…</string>
 
 </resources>
