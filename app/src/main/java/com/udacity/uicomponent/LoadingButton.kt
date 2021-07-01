@@ -90,8 +90,7 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     private val penguinAnimator = animatePenguin(TimeUnit.SECONDS.toMillis(2))
-    val penguinBitmap = BitmapFactory.decodeResource(context.resources,R.drawable.penguin_icon)
-
+    val penguinBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources,R.drawable.penguin_icon), 100, 100, true)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -109,6 +108,8 @@ class LoadingButton @JvmOverloads constructor(
             rect.centerY() + resources.getDimension(R.dimen.loading_button_top_value) / 1.5f,
             textPaint
         )
+
+        canvas.drawBitmap(penguinBitmap, resources.getDimension(R.dimen.loading_button_left_value)/2, resources.getDimension(R.dimen.loading_button_top_value), Paint())
     }
 
     //It define how load button fits in layout
