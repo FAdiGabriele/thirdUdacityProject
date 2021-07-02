@@ -12,8 +12,8 @@ import com.udacity.R
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
-
-class LoadingButton @JvmOverloads constructor(
+//As requested by the second reviewer i disabled this Loading Button and activate the CircleLoadingButton
+class PenguinLoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private var widthSize = 0

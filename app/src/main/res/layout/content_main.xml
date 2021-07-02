@@ -82,12 +82,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <com.udacity.uicomponent.LoadingButton
+            <com.udacity.uicomponent.CircleLoadingButton
                 android:id="@+id/custom_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:progressValue="0"
-                app:progessColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
